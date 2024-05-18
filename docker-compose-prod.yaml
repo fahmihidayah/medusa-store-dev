@@ -1,24 +1,20 @@
 version: "3.8"
 services:
   backend:
-    image: fahmihidayahcs/medusa-store-prod:alpine
+    image: medusa-store-prod
     container_name: medusa-store-prod
     restart: always
     depends_on:
-      postgres:
-        condition: service_healthy
-    volumes:
-      - ./:/app/medusa
-      - backend_node_modules:/app/medusa/node_modules
+      - postgres
     environment:
       DATABASE_URL: postgres://postgres:password@postgres:5432/medusa-docker
       NODE_ENV: production
       STORE_CORS: http://localhost
       JWT_SECRET: some_jwt_secret
       COOKIE_SECRET: some_cookie_secret
-      PORT: 9000
     ports:
       - "9000:9000"
+      - "7001:7001"
 
   # backend_admin:
   #   image: medusa-admin-dev
@@ -42,11 +38,7 @@ services:
     image: postgres
     ports:
       - "5432:5432"
-    healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
-      interval: 5s
-      timeout: 5s
-      retries: 5
+    restart: always
     volumes:
       - database:/var/lib/postgresql/data
     environment:
@@ -61,6 +53,4 @@ services:
       - 8080:8080
 
 volumes:
-  # storefront_node_modules:
-  backend_node_modules:
   database:

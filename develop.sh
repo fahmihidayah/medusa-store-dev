@@ -1,6 +1,6 @@
-#!/bin/bash
+#!/bin/sh
 
 medusa migrations run
 # medusa user --email admin@test.com --password Test123!
 
-medusa start
+medusa $1
