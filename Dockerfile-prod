@@ -1,0 +1,29 @@
+FROM node:22-alpine
+
+WORKDIR /app/medusa
+
+RUN apk update && apk add bash
+
+RUN apk add --no-cache python3
+
+RUN npm install -g npm@latest
+
+RUN npm install -g @medusajs/medusa-cli@latest
+
+# install babel in global
+RUN npm install -g @babel/core @babel/cli @babel/preset-env
+# install cros env in global
+RUN npm install -g cross-env
+
+COPY . .
+
+RUN chmod +x develop.sh
+
+RUN npm install --loglevel=error
+
+RUN npm i --only=production
+
+
+
+
+ENTRYPOINT ["sh", "develop.sh"]
