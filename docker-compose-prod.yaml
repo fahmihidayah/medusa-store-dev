@@ -1,7 +1,7 @@
 version: "3.8"
 services:
   backend:
-    image: medusa-store-prod
+    image: fahmihidayahcs/medusa-store-prod:alpine
     container_name: medusa-store-prod
     restart: always
     depends_on:
